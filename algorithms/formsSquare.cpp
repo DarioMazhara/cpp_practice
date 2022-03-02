@@ -31,14 +31,13 @@ bool formsSquare(vector<pair<int, int>> coords) {
             axis_vals.push_back(x);
             axis_freq[coords[i].first]++;
             axis_freq[coords[i].second]++;
-            continue;
+
         }
         if (!axis_freq[coords[i].second]) {
             int y = coords[i].second;
             axis_vals.push_back(y);
-            axis_freq[coords[i].first]++;
+
             axis_freq[coords[i].second]++;
-            continue;
         }
         axis_freq[coords[i].first]++;
         axis_freq[coords[i].second]++;
@@ -57,10 +56,10 @@ bool formsSquare(vector<pair<int, int>> coords) {
 
 
 int main() {
-    pair<int, int> c1 = {10,10};
-    pair<int, int> c2 = {20,0};
-    pair<int, int> c3 = {10,20};
-    pair<int, int> c4 = {0,10};
+    pair<int, int> c1 = {10,20};
+    pair<int, int> c2 = {20,10};
+    pair<int, int> c3 = {10,10};
+    pair<int, int> c4 = {20,20};
     vector<pair<int, int>> coords = {c1, c2, c3, c4};
 
     cout << (formsSquare(coords) ? "true" : "false") << endl;
