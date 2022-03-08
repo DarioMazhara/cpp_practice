@@ -1,0 +1,20 @@
+
+
+using namespace std;
+
+constexpr float Q_rsqrt(float number) noexcept  
+{
+    static_assert(numeric_limits<float>::is_iec559);
+
+    float const y = bit_cast<float>(
+        0x5f3759df - (bit_cast<uint32_t>(number) >> 1)
+    );
+
+    return y * (1.5f - (number * 0.5f * y * y));
+}
+
+int main() {
+    float x = 57;
+
+    cout << Q_rsqrt(x) << endl;
+}

@@ -17,6 +17,7 @@ bool formsSquare(vector<pair<int, int>> coords) {
 
     static vector<int> axis_vals = {};
     unordered_map<int, int> axis_freq;
+    typedef pair<int, int> point;
     vector<pair<int, int>> duplicate_test;
     for (pair<int, int> i : coords) {
         if(count(duplicate_test.begin(), duplicate_test.end(), i))
@@ -35,7 +36,7 @@ bool formsSquare(vector<pair<int, int>> coords) {
         if (!axis_freq[coords[i].second]) {
             int y = coords[i].second;
             axis_vals.push_back(y);
-
+            axis_freq[coords[i].first]++;
             axis_freq[coords[i].second]++;
         }
         axis_freq[coords[i].first]++;
