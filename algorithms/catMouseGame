@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <queue>
+#include <list>
+
+using namespace std;
+
+
+int mcAlgorithm(int graph[][]) {
+    int n = sizeof(graph)/sizeof(graph[0][0]);
+
+    const int DRAW = 0, MOUSE = 1, CAT = 2;
+
+    int color[50][50][3];
+    int degree[50][50][3];
+
+    for (int m = 0; m < n; ++m)
+        for (int c = 0; c < n; ++c) {
+            degree[m][c][1] = sizeof(graph[m]);
+            degree[m][c][2] = sizeof(graph[c]);
+            for (int x : graph[c])
+                if (x == 0) {
+                    degree[m][c][2]--;
+                    break;
+                }
+        }
+    queue<int[]> queue;
+    for (int i = 0; i < n; ++i)
+        for(int t = 1; t <= 2; ++t) {
+            color[0][i][t] = MOUSE;
+            int arr[] = {0, i, t, MOUSE};
+            queue.push_back(arr);
+            if (i > 0) {
+                color[i][i][t] = CAT;
+                int arr2[] = {i, i, t, CAT};
+                queue.push_back(arr2);
+            }
+        }
+    while (queue.size() != 0) {
+        int node[] = queue.pop();
+        int i = node[0], j = node[1], t = node[3], c = node[3];
+        for (int parent[] : parents(graph, i, j, t)) {
+            int i2 = parent[0], j2 = parent[1], t2 = parent[2];
+            if (color[i2][j2][t2] == DRAW) {
+                if (t2 == c) {
+                    color[i2][j2][t2] = c;
+                    int arr3[] = {i2, j2, t2, c};
+                    queue.push_back(arr3);
+                }
+                else {
+                    degree[i2][j2][t2]--;
+                    if (degree[i2][j2][t2] == 0) {
+                        color[i2][j2][t2] = 3-t2;
+                        int arr4[] = {i2, j2, t2, t-t2};
+                        queue.push_back(arr4);
+                    }
+                }
+            } 
+        }
+    }
+    return color[1][2][1];
+}   
+
+list<int[]> parents(int graph[][], int m, int c, int t) {
+    list<int[]> ans;
+    if (t==2) {
+        for (int m2 : graph[m]) {
+            int arr[] = {m2, c, 3-t};
+            ans.push_back(arr);
+        }
+    }
+    else {
+        for (int c2 : graph[c])
+            if (c2 > 0) {
+                int arr2[] = {m, c2, 3-t};
+                ans.push_back(arr2);
+            }
+    }
+    return ans;
+}
